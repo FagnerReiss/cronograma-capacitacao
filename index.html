@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cronograma de Capacitação — Fagner 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f7f7f5;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6b6b;
+      --border: #e5e5e3;
+      --border-light: #ededed;
+      --radius-lg: 12px;
+      --radius-md: 8px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: #f0efeb;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: var(--text-primary);
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* VERDICT BOX */
+    .verdict-box {
+      border: 0.5px solid #FAC775;
+      background: #FAEEDA;
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .verdict-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #633806;
+      margin-bottom: 6px;
+    }
+    .verdict-text {
+      font-size: 13px;
+      color: #854F0B;
+      line-height: 1.65;
+    }
+
+    /* PHASE CARDS */
+    .phase-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .phase-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+    }
+    .phase-now::before  { background: #D85A30; }
+    .phase-mid::before  { background: #1D9E75; }
+    .phase-end::before  { background: #7F77DD; }
+    .phase-fut::before  { background: #EF9F27; }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .phase-badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 11px;
+      border-radius: 20px;
+    }
+    .badge-now { background: #FAECE7; color: #712B13; }
+    .badge-mid { background: #E1F5EE; color: #085041; }
+    .badge-end { background: #EEEDFE; color: #3C3489; }
+    .badge-fut { background: #FAEEDA; color: #633806; }
+
+    .phase-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .phase-period {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    /* COURSE ITEMS */
+    .course-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .course-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+    .course-icon {
+      font-size: 18px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .course-info { flex: 1; min-width: 0; }
+    .course-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .course-meta {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+    .course-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 7px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .tag-free     { background: #E1F5EE; color: #085041; }
+    .tag-paid     { background: #EEEDFE; color: #3C3489; }
+    .tag-priority { background: #FAECE7; color: #712B13; }
+    .tag-intl     { background: #FAEEDA; color: #633806; }
+    .tag-doing    { background: #E6F1FB; color: #0C447C; }
+    .tag-hours    { background: #F1EFE8; color: #444441; }
+
+    .week-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border);
+      color: var(--text-secondary);
+      padding: 2px 9px;
+      border-radius: 20px;
+      margin-top: 7px;
+    }
+
+    /* CTA BUTTON */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-family: var(--font);
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--border);
+      background: transparent;
+      color: var(--text-primary);
+      cursor: default;
+      margin-top: 12px;
+    }
+
+    /* CONNECTOR */
+    .timeline-connector {
+      display: flex;
+      justify-content: center;
+      height: 20px;
+      margin: 0;
+    }
+    .connector-line {
+      width: 2px;
+      background: var(--border);
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* INSIGHT BOX */
+    .insight-box {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .insight-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .insight-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .insight-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .dot-coral  { background: #D85A30; }
+    .dot-teal   { background: #1D9E75; }
+    .dot-purple { background: #7F77DD; }
+    .dot-amber  { background: #EF9F27; }
+    .insight-text {
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h2>Cronograma de Capacitação — Fagner</h2>
+  <p class="subtitle">Atualizado em 22/06/2026 · Férias agora · Foco em gestão e liderança</p>
+
+  <div class="verdict-box">
+    <div class="verdict-title">🎯 Sobre o MO-211 (Excel Expert Internacional)</div>
+    <div class="verdict-text">
+      <strong>Não agora — mas está no plano.</strong> Com férias disponíveis, a tentação é atacar tudo de uma vez. A estratégia certa é usar esse tempo para consolidar o Google PM e o Power BI com qualidade. O MO-211 entra em início de 2027, quando você terá base sólida, formatura concluída e zero pressão paralela — e aí ele vai realmente impressionar.
+    </div>
+  </div>
+
+  <!-- FASE FÉRIAS -->
+  <div class="phase-card phase-now">
+    <div class="phase-header">
+      <span class="phase-badge badge-now">Agora — Férias</span>
+      <span class="phase-title">Aproveitar e acelerar com qualidade</span>
+      <span class="phase-period">Jun – Jul 2026</span>
+    </div>
+    <div class="course-list">
+
+      <div class="course-item">
+        <span class="course-icon">📊</span>
+        <div class="course-info">
+          <div class="course-name">Gestão de Negócios + Planilhas Premium (Udemy)</div>
+          <div class="course-meta">Concluir as trilhas restantes com foco real — uma por semana, anotando e aplicando</div>
+          <div class="course-tags">
+            <span class="tag tag-doing">Em andamento</span>
+            <span class="tag tag-priority">Prioridade máxima</span>
+            <span class="tag tag-hours">3–4h/semana</span>
+          </div>
+          <span class="week-badge">Seg · Qua · Sex</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">📈</span>
+        <div class="course-info">
+          <div class="course-name">Power BI — Microsoft Learn (gratuito)</div>
+          <div class="course-meta">Iniciar agora nas férias: módulos curtos, ritmo diário possível. Meta: terminar o path básico em julho</div>
+          <div class="course-tags">
+            <span class="tag tag-free">Gratuito · Microsoft oficial</span>
+            <span class="tag tag-priority">Alta demanda no mercado</span>
+            <span class="tag tag-hours">2–3h/semana</span>
+          </div>
+          <span class="week-badge">Ter · Qui · Sáb</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">📜</span>
+        <div class="course-info">
+          <div class="course-name">Google Project Management Certificate (Coursera)</div>
+          <div class="course-meta">Solicitar a bolsa agora e já iniciar nas férias — melhor momento para dar o pontapé</div>
+          <div class="course-tags">
+            <span class="tag tag-intl">Cert. internacional Google</span>
+            <span class="tag tag-priority">Alto impacto no currículo</span>
+            <span class="tag tag-hours">2–3h/semana</span>
+          </div>
+          <span class="week-badge">Ter · Qui · Dom</span>
+        </div>
+      </div>
+
+    </div>
+    <span class="cta-btn">Como pedir a bolsa no Coursera ↗</span>
+  </div>
+
+  <div class="timeline-connector"><div class="connector-line"></div></div>
+
+  <!-- FASE 8º SEMESTRE -->
+  <div class="phase-card phase-mid">
+    <div class="phase-header">
+      <span class="phase-badge badge-mid">8º Semestre</span>
+      <span class="phase-title">Manter ritmo + finalizar TCC</span>
+      <span class="phase-period">Ago – Out 2026</span>
+    </div>
+    <div class="course-list">
+
+      <div class="course-item">
+        <span class="course-icon">📜</span>
+        <div class="course-info">
+          <div class="course-name">Google Project Management Certificate — continuar</div>
+          <div class="course-meta">Manter o ritmo iniciado nas férias · não abandonar no meio do semestre</div>
+          <div class="course-tags">
+            <span class="tag tag-intl">Cert. internacional Google</span>
+            <span class="tag tag-hours">2h/semana</span>
+          </div>
+          <span class="week-badge">2 dias fixos na semana</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">📈</span>
+        <div class="course-info">
+          <div class="course-name">Power BI intermediário — Microsoft Learn</div>
+          <div class="course-meta">Avançar para dashboards reais após concluir o básico · aplicar em alguma análise da Conassa</div>
+          <div class="course-tags">
+            <span class="tag tag-free">Gratuito</span>
+            <span class="tag tag-hours">1–2h/semana</span>
+          </div>
+          <span class="week-badge">1 dia fixo na semana</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">🎓</span>
+        <div class="course-info">
+          <div class="course-name">TCC — ajustes finais e defesa</div>
+          <div class="course-meta">Prioridade máxima no período · cursinhos menores entram nos espaços livres sem forçar</div>
+          <div class="course-tags">
+            <span class="tag tag-priority">Foco principal</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="timeline-connector"><div class="connector-line"></div></div>
+
+  <!-- FASE PÓS-FORMATURA -->
+  <div class="phase-card phase-end">
+    <div class="phase-header">
+      <span class="phase-badge badge-end">Pós-formatura</span>
+      <span class="phase-title">Especialização em liderança e gestão</span>
+      <span class="phase-period">Nov 2026 – Jun 2027</span>
+    </div>
+    <div class="course-list">
+
+      <div class="course-item">
+        <span class="course-icon">🏢</span>
+        <div class="course-info">
+          <div class="course-name">Liderança e Gestão de Equipes — FGV Online</div>
+          <div class="course-meta">Certificado de instituição renomada · peso real no currículo brasileiro · momento ideal pós-TCC</div>
+          <div class="course-tags">
+            <span class="tag tag-paid">~R$200–350</span>
+            <span class="tag tag-priority">Alinhado com seu objetivo</span>
+            <span class="tag tag-hours">3h/semana</span>
+          </div>
+          <span class="week-badge">Seg · Qua</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">💡</span>
+        <div class="course-info">
+          <div class="course-name">Finanças para Não Financeiros — Sebrae (gratuito)</div>
+          <div class="course-meta">Reforça sua visão de dono de negócio com linguagem prática de gestão</div>
+          <div class="course-tags">
+            <span class="tag tag-free">Gratuito</span>
+            <span class="tag tag-hours">1h/semana</span>
+          </div>
+          <span class="week-badge">Sex ou Sáb</span>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">🏅</span>
+        <div class="course-info">
+          <div class="course-name">MO-211 — Microsoft Excel Expert (Certificação Internacional)</div>
+          <div class="course-meta">Preparação intensiva · com Udemy + Power BI consolidados, a prova fica muito mais acessível</div>
+          <div class="course-tags">
+            <span class="tag tag-intl">Cert. internacional</span>
+            <span class="tag tag-paid">~R$350 prova</span>
+            <span class="tag tag-hours">2h/semana prep.</span>
+          </div>
+          <span class="week-badge">Ter · Qui</span>
+        </div>
+      </div>
+
+    </div>
+    <span class="cta-btn">Ver detalhes da FGV Online ↗</span>
+  </div>
+
+  <div class="timeline-connector"><div class="connector-line"></div></div>
+
+  <!-- FASE 2027+ -->
+  <div class="phase-card phase-fut">
+    <div class="phase-header">
+      <span class="phase-badge badge-fut">2027 em diante</span>
+      <span class="phase-title">MBA e visão empreendedora</span>
+      <span class="phase-period">A partir de Jul 2027</span>
+    </div>
+    <div class="course-list">
+
+      <div class="course-item">
+        <span class="course-icon">🚀</span>
+        <div class="course-info">
+          <div class="course-name">MBA em Gestão Empresarial — FGV Online</div>
+          <div class="course-meta">Combina sua visão de gestor + empresário + contador · parcelas acessíveis · próximo nível natural</div>
+          <div class="course-tags">
+            <span class="tag tag-paid">Pós-formatura</span>
+            <span class="tag tag-priority">Diferencial de longo prazo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <span class="course-icon">🏗️</span>
+        <div class="course-info">
+          <div class="course-name">Holding Familiar e Planejamento Patrimonial</div>
+          <div class="course-meta">Cursos especializados para estruturar seu futuro negócio com base contábil real</div>
+          <div class="course-tags">
+            <span class="tag tag-paid">Específico para seu objetivo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <span class="cta-btn">Saber mais sobre o MBA FGV ↗</span>
+  </div>
+
+  <hr class="divider">
+
+  <div class="insight-box">
+    <div class="insight-title">Estratégia Geral</div>
+    <div class="insight-row">
+      <div class="insight-dot dot-coral"></div>
+      <div class="insight-text">Use as <strong>férias agora</strong> para largar na frente — Google PM e Power BI iniciados antes do semestre final é grande vantagem</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-dot dot-teal"></div>
+      <div class="insight-text">Foque em <strong>completar com excelência</strong>, não em acumular certificados — recrutadores percebem a diferença</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-dot dot-purple"></div>
+      <div class="insight-text">Aplique o que aprender <strong>no estágio da Conassa</strong> — isso vira case real para entrevistas e diferencia seu currículo</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-dot dot-amber"></div>
+      <div class="insight-text">LinkedIn atualizado após cada certificado — <strong>visibilidade importa tanto quanto o diploma</strong></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
